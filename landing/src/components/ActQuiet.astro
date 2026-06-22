@@ -1,0 +1,20 @@
+---
+// Act IV — Quiet Frame (landing brief §6). Black-on-cream, type only, a long
+// hold with a slow ambient bloom. The page's breath. No CTA.
+interface Props {
+  line1?: string
+  line2?: string
+}
+const { line1 = 'ออกแบบมาอย่างเงียบงาน', line2 = 'เพื่อให้ “งาน” ของคุณดังได้เต็มเสียง' } = Astro.props
+---
+
+<section
+  class="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-cream px-6"
+>
+  <div class="quiet-bloom" aria-hidden="true"></div>
+  <p
+    class="relative max-w-3xl text-balance text-center font-display text-3xl font-light leading-tight tracking-tightest text-espresso md:text-5xl lg:text-6xl"
+  >
+    {line1}<br />{line2}
+  </p>
+</section>

@@ -1,0 +1,62 @@
+---
+// "Runs on everything" strip. Generic device icons (no official OS logos, to
+// avoid brand misuse) + labels. Honest: README lists Windows/macOS/Linux + tablet.
+import type { Locale } from '../lib/i18n'
+
+const { lang = 'th' } = Astro.props as { lang?: Locale }
+
+const COPY = {
+  th: { heading: 'พร้อมใช้ได้ทุกเครื่อง', sub: 'ติดตั้งครั้งเดียว ใช้ได้ทั้งร้าน — เดสก์ท็อปหลังเคาน์เตอร์ หรือแท็บเล็ตในมือ', tablet: 'แท็บเล็ตจอสัมผัส' },
+  en: { heading: 'Ready on every machine', sub: 'Install once, run it anywhere — the desktop behind the counter or a tablet in hand.', tablet: 'Touch tablet' },
+}
+const t = COPY[lang]
+
+const platforms = [
+  { name: 'Windows', icon: 'monitor' },
+  { name: 'macOS', icon: 'laptop' },
+  { name: 'Linux', icon: 'terminal' },
+  { name: t.tablet, icon: 'tablet' },
+]
+
+const PATHS: Record<string, string> = {
+  monitor: 'M3 4h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zM8 21h8M12 17v4',
+  laptop: 'M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10H4V5zM2 19h20l-1 1.5H3L2 19z',
+  terminal: 'M5 7l5 5-5 5M13 17h6',
+  tablet: 'M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM12 18h.01',
+}
+---
+
+<section class="bg-bg px-6 py-20 md:py-28">
+  <div class="mx-auto max-w-5xl text-center">
+    <h2 data-reveal class="font-display text-3xl font-light tracking-tightest text-text md:text-4xl">
+      {t.heading}
+    </h2>
+    <p data-reveal style="transition-delay:60ms" class="mx-auto mt-4 max-w-xl text-text-muted">{t.sub}</p>
+
+    <ul class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {
+        platforms.map((p, index) => (
+          <li
+            data-reveal
+            style={`transition-delay:${index * 70}ms`}
+            class="flex flex-col items-center gap-3 rounded-2xl border border-border bg-surface p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-card-hover"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d={PATHS[p.icon]} />
+            </svg>
+            <span class="text-sm font-medium text-text">{p.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

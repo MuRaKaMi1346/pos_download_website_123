@@ -1,0 +1,17 @@
+# SmartBrew POS release manifest — previous stable version.
+version: "1.4.1"
+released_at: "2026-05-20T00:00:00Z"
+channels:
+  windows:
+    url: "https://cdn.smartbrew.app/releases/1.4.1/SmartBrew-1.4.1-x64.exe"
+    size_bytes: 124218004
+    sha256: "d4e5f60718293041d4e5f60718293041d4e5f60718293041d4e5f60718293041"
+  macos:
+    url: "https://cdn.smartbrew.app/releases/1.4.1/SmartBrew-1.4.1-universal.dmg"
+    size_bytes: 118994233
+    sha256: "e5f6071829304152e5f6071829304152e5f6071829304152e5f6071829304152"
+  linux:
+    url: "https://cdn.smartbrew.app/releases/1.4.1/SmartBrew-1.4.1-x86_64.AppImage"
+    size_bytes: 141778090
+    sha256: "f607182930415263f607182930415263f607182930415263f607182930415263"
+notes_url: "/changelog#1-4-1"

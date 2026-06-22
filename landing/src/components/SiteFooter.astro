@@ -1,0 +1,67 @@
+---
+// Act V — Footer (landing brief §6). Links, language toggle, version line.
+import type { Locale, Strings } from '../lib/i18n'
+import LanguageToggle from './LanguageToggle'
+
+interface Props {
+  strings?: Strings['footer']
+  lang?: Locale
+}
+
+const DEFAULT: Strings['footer'] = {
+  tagline: 'ระบบขายหน้าร้านที่ออกแบบมาเพื่อคาเฟ่ — เร็ว เงียบ และทำงานได้แม้ออฟไลน์',
+  product: 'ผลิตภัณฑ์',
+  download: 'ดาวน์โหลด',
+  capabilities: 'ความสามารถ',
+  faq: 'คำถามที่พบบ่อย',
+  tryIt: 'ลองใช้งาน',
+  demo: 'เดโมออนไลน์',
+  built: 'Built with SmartBrew v1.4.2',
+}
+
+const { strings = DEFAULT, lang = 'th' } = Astro.props
+const productLinks = [
+  { label: strings.download, href: '#download' },
+  { label: strings.capabilities, href: '#pricing' },
+  { label: strings.faq, href: '#faq' },
+]
+---
+
+<footer class="border-t border-border bg-bg px-6 py-16">
+  <div class="mx-auto max-w-6xl">
+    <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      <div>
+        <p class="font-display text-2xl tracking-tightest text-text">SmartBrew POS</p>
+        <p class="mt-2 max-w-xs text-sm text-text-muted">{strings.tagline}</p>
+      </div>
+      <nav class="flex gap-12" aria-label={strings.product}>
+        <ul class="space-y-3 text-sm">
+          <li class="font-medium text-text">{strings.product}</li>
+          {
+            productLinks.map((link) => (
+              <li>
+                <a class="text-text-muted transition-colors hover:text-text" href={link.href}>
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <ul class="space-y-3 text-sm">
+          <li class="font-medium text-text">{strings.tryIt}</li>
+          <li>
+            <a class="text-text-muted transition-colors hover:text-text" href="https://demo.smartbrew.app">
+              {strings.demo}
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div
+      class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-sm text-text-muted md:flex-row"
+    >
+      <p>© {new Date().getFullYear()} SmartBrew POS · {strings.built}</p>
+      <LanguageToggle locale={lang} client:idle />
+    </div>
+  </div>
+</footer>

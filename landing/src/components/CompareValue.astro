@@ -1,0 +1,89 @@
+---
+// Buy-once vs subscription — makes the one-time price feel like a steal.
+import type { Locale } from '../lib/i18n'
+
+const { lang = 'th' } = Astro.props as { lang?: Locale }
+
+const COPY = {
+  th: {
+    heading: 'จ่ายครั้งเดียว คุ้มกว่าระบบรายเดือน',
+    sub: 'ซื้อ SmartBrew ครั้งเดียวเป็นเจ้าของถาวร เทียบกับค่าบริการรายเดือนที่จ่ายไม่จบ',
+    ours: { name: 'SmartBrew POS', tag: 'ซื้อขาด', price: '฿349', period: 'จ่ายครั้งเดียว', totalLabel: 'รวมจ่ายใน 3 ปี', total: '฿349' },
+    theirs: { name: 'ระบบ POS รายเดือนทั่วไป', tag: 'จ่ายรายเดือน', price: '~฿800', period: 'ต่อเดือน', totalLabel: 'รวมจ่ายใน 3 ปี', total: '฿28,800' },
+    savings: 'ประหยัดได้กว่า ฿28,000 ใน 3 ปี',
+    note: '*ค่าบริการรายเดือนเป็นตัวเลขตัวอย่างเพื่อการเปรียบเทียบ ราคาจริงของแต่ละเจ้าต่างกัน',
+  },
+  en: {
+    heading: 'Buy once. Beat the monthly bill.',
+    sub: 'Own SmartBrew outright, then compare it to a subscription that never stops.',
+    ours: { name: 'SmartBrew POS', tag: 'One-time', price: '฿349', period: 'paid once', totalLabel: '3-year total', total: '฿349' },
+    theirs: { name: 'Typical monthly POS', tag: 'Subscription', price: '~฿800', period: 'per month', totalLabel: '3-year total', total: '฿28,800' },
+    savings: 'Save over ฿28,000 across 3 years',
+    note: '*Monthly figure is illustrative for comparison; real prices vary by vendor.',
+  },
+}
+const t = COPY[lang]
+
+const cards = [
+  { ...t.ours, featured: true, w: '4%' },
+  { ...t.theirs, featured: false, w: '100%' },
+]
+---
+
+<section class="bg-surface-2 px-6 py-24 md:py-32">
+  <div class="mx-auto max-w-5xl">
+    <h2 data-reveal class="text-center font-display text-4xl font-light tracking-tightest text-text md:text-5xl">
+      {t.heading}
+    </h2>
+    <p data-reveal style="transition-delay:60ms" class="mx-auto mt-4 max-w-2xl text-center text-text-muted">
+      {t.sub}
+    </p>
+
+    <div data-reveal class="mt-14 grid gap-6 md:grid-cols-2">
+      {
+        cards.map((card) => (
+          <div
+            class:list={[
+              'rounded-2xl bg-surface p-8 shadow-card',
+              card.featured ? 'border border-primary ring-1 ring-primary' : 'border border-border',
+            ]}
+          >
+            <div class="flex items-center justify-between">
+              <h3 class="font-display text-xl text-text">{card.name}</h3>
+              <span
+                class:list={[
+                  'rounded-full px-3 py-1 text-xs font-medium',
+                  card.featured ? 'bg-primary text-primary-fg' : 'bg-surface-2 text-text-muted',
+                ]}
+              >
+                {card.tag}
+              </span>
+            </div>
+            <p class="mt-6 flex items-baseline gap-2">
+              <span class="font-display text-4xl tracking-tightest text-text tabular-nums">{card.price}</span>
+              <span class="text-sm text-text-muted">{card.period}</span>
+            </p>
+            <div class="mt-6 h-3 w-full overflow-hidden rounded-full bg-surface-2">
+              <div
+                class:list={['cmp-bar h-full rounded-full', card.featured ? 'bg-primary' : 'bg-text-muted']}
+                style={`--w:${card.w}`}
+              >
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-text-muted">
+              {card.totalLabel}: <span class="font-display text-lg text-text tabular-nums">{card.total}</span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      data-reveal
+      class="mt-8 rounded-2xl bg-espresso px-8 py-6 text-center font-display text-2xl tracking-tightest text-cream md:text-3xl"
+    >
+      {t.savings}
+    </div>
+    <p class="mt-4 text-center text-xs text-text-muted">{t.note}</p>
+  </div>
+</section>

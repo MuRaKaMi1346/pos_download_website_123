@@ -1,0 +1,309 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Color + surface + motion-surface tokens.
+   * Copied verbatim from docs/prompts/pos-ui-motion.prompt.md §2.1
+   * (the source of truth). The source uses Tailwind v4 `@theme`; this site
+   * is on Tailwind v3, so the identical tokens live in :root instead.
+   */
+  :root {
+    --color-bg: oklch(0.985 0 0);
+    --color-surface: oklch(1 0 0);
+    --color-surface-2: oklch(0.97 0 0);
+    --color-surface-ink: oklch(0.18 0.02 260); /* dark sub-bar */
+    --color-border: oklch(0.92 0 0);
+    --color-text: oklch(0.18 0.02 260);
+    --color-text-muted: oklch(0.55 0.02 260);
+    --color-primary: oklch(0.28 0.035 50); /* deep espresso accent (was orange — changed for contrast/readability) */
+    --color-primary-fg: oklch(0.99 0 0);
+    --color-success: oklch(0.65 0.16 150);
+    --color-warning: oklch(0.78 0.16 80);
+    --color-danger: oklch(0.6 0.22 27);
+    --shadow-card: 0 1px 2px oklch(0 0 0 / 0.04), 0 6px 18px oklch(0 0 0 / 0.06);
+    --shadow-card-hover: 0 2px 6px oklch(0 0 0 / 0.08), 0 18px 40px oklch(0 0 0 / 0.12);
+    --shadow-press: 0 1px 1px oklch(0 0 0 / 0.1) inset;
+    --radius-card: 14px;
+
+    /* Landing-only additions (landing brief §4). */
+    --color-hero-overlay: oklch(0.18 0.02 260 / 0.55);
+    --color-hero-tint: oklch(0.22 0.012 50 / 0.32); /* near-neutral darkening (de-orange) */
+
+    /* Cinematic grade surfaces + easing (landing brief §1.5). Additions, not
+     * changes to the §2.1 tokens above. */
+    --color-espresso: oklch(0.2 0.05 40);
+    --color-cream: oklch(0.97 0.02 83);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  ::selection {
+    background-color: oklch(0.28 0.035 50 / 0.16);
+  }
+
+  /* Focus ring that survives transforms (box-shadow, not outline). */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary);
+    border-radius: 4px;
+  }
+}
+
+/* Lenis inertial smooth scroll (landing brief §1.5.1). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ====================================================================
+ * Cinematic grade layer (landing brief §1.5)
+ * ==================================================================== */
+
+/* Loading curtain — §1.5.5. Espresso panel, wordmark in, wipe up. ≤1.4s. */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-espresso);
+  will-change: transform;
+  /* wordmark in (0.4s) + hold (0.3s) -> wipe up (0.7s) = 1.4s total */
+  animation: curtain-wipe 0.7s var(--ease-out) 0.7s forwards;
+}
+.curtain__mark {
+  color: var(--color-cream);
+  opacity: 0;
+  animation: curtain-mark-in 0.4s ease-out forwards;
+}
+@keyframes curtain-mark-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes curtain-wipe {
+  to {
+    transform: translateY(-100%);
+  }
+}
+@keyframes curtain-fade {
+  to {
+    opacity: 0;
+  }
+}
+/* Reduced-motion: a designed quick fade instead of the wipe (brief §1.5). */
+.curtain--reduced {
+  animation: curtain-fade 0.3s ease-out 0.2s forwards;
+}
+.curtain--reduced .curtain__mark {
+  animation: curtain-mark-in 0.2s ease-out forwards;
+}
+
+/* Custom cursor — §1.5.6. Desktop only; toggled by the Cursor island. */
+.cursor-ring {
+  box-sizing: border-box;
+  border: 1.5px solid #fff;
+  border-radius: 9999px;
+  mix-blend-mode: difference; /* inverts against whatever is beneath */
+}
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none;
+}
+/* Keep the native cursor where it carries meaning. */
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor select,
+html.has-custom-cursor [contenteditable='true'],
+html.has-custom-cursor iframe {
+  cursor: auto;
+}
+
+/* Film grain — §1.5.2. Static tiling noise at 3%. Never animated. */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Film LUT — §1.5.2. Warm orange -> teal split tone at 6% soft-light. */
+.film-lut {
+  position: fixed;
+  inset: 0;
+  z-index: 51;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  background-image: linear-gradient(120deg, oklch(0.62 0.05 60), oklch(0.58 0.06 210));
+}
+
+/* Vignette for hero acts — §1.5.2. Apply `vignette` to a relative section. */
+.vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, oklch(0 0 0 / 0.35) 100%);
+}
+
+/* Chromatic aberration for display headings — §1.5.2. */
+.text-chromatic {
+  text-shadow:
+    -0.5px 0 0 rgba(255, 0, 0, 0.45),
+    0.5px 0 0 rgba(0, 0, 255, 0.45);
+}
+
+/* Act I scroll hint — a slow vertical line that draws after 3s of inactivity. */
+.scroll-hint {
+  opacity: 0;
+  animation: scroll-hint-in 0.6s ease-out 3s forwards;
+}
+.scroll-hint__line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(var(--color-text), transparent);
+  transform-origin: top;
+  animation: scroll-line 1.8s ease-in-out 3s infinite;
+}
+@keyframes scroll-hint-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    animation: scroll-hint-in 0.3s ease-out 1s forwards;
+  }
+  .scroll-hint__line {
+    animation: none;
+    transform: scaleY(1);
+  }
+}
+
+/* Act II — hide the static still once the WebGL island goes live (§6). */
+.act2-live .act2-fallback {
+  display: none;
+}
+
+/* Keep the focus ring visible on dark espresso sections (accent is now dark). */
+.bg-espresso :focus-visible {
+  box-shadow: 0 0 0 3px var(--color-cream);
+}
+
+/* Act IV — slow ambient bloom behind the quiet frame (§6). */
+.quiet-bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, oklch(0.58 0.04 60 / 0.18), transparent 70%);
+  animation: quiet-bloom 9s ease-in-out infinite alternate;
+}
+@keyframes quiet-bloom {
+  from {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quiet-bloom {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* ====================================================================
+ * Landing expansion — reveal-on-scroll, sticky header, comparison bars
+ * ==================================================================== */
+
+/* Anchor jumps clear the fixed header. */
+html {
+  scroll-padding-top: 5rem;
+}
+
+/* Elements with [data-reveal] fade + rise into view once (see scripts/reveal.ts). */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sticky header: transparent over the (light) hero, blurred bar once scrolled. */
+#site-header.site-header--solid {
+  background-color: oklch(1 0 0 / 0.82);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Comparison bars grow when their section reveals. */
+.cmp-bar {
+  width: 0;
+  transition: width 1s var(--ease-out);
+}
+[data-reveal].is-visible .cmp-bar {
+  width: var(--w, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
+  .cmp-bar {
+    width: var(--w, 0);
+    transition: none;
+  }
+}

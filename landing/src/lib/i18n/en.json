@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "title": "SmartBrew POS — fast at the counter, smart behind it",
+    "description": "A point of sale for cafes: ring up orders fast, automate stock and sales, keep selling when the internet drops, and let AI forecast demand. Available for Windows, macOS, and Linux."
+  },
+  "hero": {
+    "eyebrow": "SMARTBREW POS",
+    "headline": "You make the coffee.\nWe handle the rest.",
+    "subline": "A cafe POS that rings up fast, closes bills cleanly, tracks stock automatically — and never stalls when the Wi-Fi does.",
+    "primary": "Download now",
+    "secondary": "See it in action"
+  },
+  "act2": {
+    "alt": "The SmartBrew POS sale screen",
+    "labels": ["For one barista", "For a thousand baristas", "And it works offline"]
+  },
+  "capabilities": [
+    { "title": "Close bills in a few taps", "desc": "A sale screen built for the rush — add items, take payment, and close the bill in seconds." },
+    { "title": "Take every kind of payment", "desc": "Cash, transfer, card, and PromptPay on one bill, with split payments and instant receipts." },
+    { "title": "Never lose track of stock", "desc": "Ingredients deplete by recipe automatically, with low-stock alerts before you run out — no daily counting." },
+    { "title": "Let AI order for you", "desc": "Forecast demand and get ingredient-ordering suggestions ahead of time, in Thai, on-device." },
+    { "title": "Sell straight through outages", "desc": "Local-first order capture that syncs automatically the moment you're back online — no interruptions." },
+    { "title": "Every branch, one screen", "desc": "Roll up sales and stock across all branches, compare, and act from a single dashboard." }
+  ],
+  "quiet": { "line1": "Quiet under the hood.", "line2": "So your shop can be loud." },
+  "how": {
+    "heading": "Selling in 3 steps",
+    "steps": [
+      { "title": "Download and install", "desc": "Windows, macOS, or Linux — ready in minutes." },
+      { "title": "Add your menu and team", "desc": "Set up your menu, recipes, and users once." },
+      { "title": "Open up and sell", "desc": "Sell at the counter, watch sales live, and let AI plan your stock." }
+    ]
+  },
+  "pricing": {
+    "heading": "Buy once. Own it forever.",
+    "sub": "One payment, no monthly fees, no lock-in.",
+    "recommended": "Best value",
+    "tiers": [
+      { "name": "Starter", "price": "฿99", "period": "one-time", "blurb": "For shops just opening", "cta": "Get Starter", "features": ["1 branch", "Unlimited counter sales", "Menu & categories", "Basic sales reports"] },
+      { "name": "Pro", "price": "฿349", "period": "one-time", "blurb": "For shops that are growing", "cta": "Get Pro", "features": ["Everything in Starter", "Multiple users & roles", "AI sales forecasting", "Stock & recipes", "Kitchen display (KDS)"] },
+      { "name": "Business", "price": "Contact us", "period": "custom pricing", "blurb": "For multi-branch chains", "cta": "Talk to sales", "features": ["Everything in Pro", "All branches in one place", "API access", "Dedicated support"] }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently asked questions",
+    "items": [
+      { "q": "Does offline really work?", "a": "Absolutely. It's local-first — sell and record orders even when the internet drops, and everything syncs automatically when you're back." },
+      { "q": "Which devices are supported?", "a": "Windows, macOS, Linux, and touch tablets — designed for easy taps at the counter." },
+      { "q": "How safe is my data?", "a": "Your data lives mainly on your machine, is encrypted in transit, and we keep personal data to the minimum we need." },
+      { "q": "Any hidden costs?", "a": "None. Pay once and it's yours — no monthly fees, no surprise charges." }
+    ]
+  },
+  "cta": {
+    "heading": "Ready to make your counter flow?",
+    "sub": "Download SmartBrew POS today, or get new features in your inbox first.",
+    "orNewsletter": "or get updates"
+  },
+  "newsletter": {
+    "label": "Your email",
+    "placeholder": "you@cafe.com",
+    "submit": "Subscribe",
+    "sending": "Sending…",
+    "success": "Thanks! We'll send you news and new features.",
+    "invalid": "Please enter a valid email",
+    "error": "Couldn't send — please try again"
+  },
+  "download": {
+    "for": "Download for",
+    "version": "Version",
+    "or": "or for",
+    "demo": "Try the online demo",
+    "errorNote": "We can't load the latest release right now — please try again later."
+  },
+  "footer": {
+    "tagline": "A cafe POS — fast at the counter, smart behind it, and steady offline.",
+    "product": "Product",
+    "download": "Download",
+    "capabilities": "Capabilities",
+    "faq": "FAQ",
+    "tryIt": "Try it",
+    "demo": "Online demo",
+    "built": "Built with SmartBrew v1.4.2"
+  }
+}

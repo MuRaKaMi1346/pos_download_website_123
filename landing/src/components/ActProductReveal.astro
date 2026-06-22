@@ -1,0 +1,43 @@
+---
+// Act II — Product Reveal (landing brief §6). A 300vh sticky-pin; a client-only
+// R3F island draws the cup + tablet over an opaque canvas. Reduced motion / no
+// JS / WebGL failure fall back to the static POS still beneath (.act2-fallback,
+// hidden once the island goes live via .act2-live).
+import ProductReveal from './ProductReveal'
+
+interface Props {
+  labels?: string[]
+  alt?: string
+}
+const {
+  labels = [
+    'สร้างมาเพื่อบาริสต้าคนเดียว',
+    'ออกแบบมาเพื่อบาริสต้านับพัน',
+    'ทำงานต่อได้แม้ไม่มีอินเทอร์เน็ต',
+  ],
+  alt = 'หน้าจอการขายของ SmartBrew POS',
+} = Astro.props
+---
+
+<section data-act2 class="relative bg-espresso" style="height: 300vh">
+  <div class="vignette sticky top-0 flex h-[100svh] w-full items-center justify-center overflow-hidden">
+    <div
+      class="act2-fallback pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-8 px-6"
+    >
+      <img
+        src="/images/pos.webp"
+        alt={alt}
+        class="w-[min(90vw,940px)] rounded-2xl border border-white/10 shadow-2xl"
+        loading="lazy"
+        decoding="async"
+      />
+      <ul
+        class="flex flex-wrap justify-center gap-x-10 gap-y-2 text-center font-display text-xl text-cream/80"
+      >
+        {labels.map((label) => <li>{label}</li>)}
+      </ul>
+    </div>
+
+    <ProductReveal client:only="react" labels={labels} />
+  </div>
+</section>

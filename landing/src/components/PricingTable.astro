@@ -1,0 +1,99 @@
+---
+// Act V — Pricing (landing brief §6). Three tiers on a neutral surface. The
+// middle tier (Pro) is featured.
+import type { Strings } from '../lib/i18n'
+
+interface Props {
+  strings?: Strings['pricing']
+}
+
+const DEFAULT: Strings['pricing'] = {
+  heading: 'ซื้อขาด จ่ายครั้งเดียว',
+  sub: 'เป็นเจ้าของถาวร ไม่มีค่ารายเดือน ไม่มีสัญญาผูกมัด',
+  recommended: 'คุ้มสุด',
+  tiers: [
+    { name: 'เริ่มต้น', price: '฿99', period: 'จ่ายครั้งเดียว', blurb: 'สำหรับร้านที่เพิ่งเปิด', cta: 'เลือกเริ่มต้น', features: ['1 สาขา', 'ขายหน้าร้านไม่จำกัด', 'จัดการเมนูและหมวดหมู่', 'รายงานยอดขายพื้นฐาน'] },
+    { name: 'โปร', price: '฿349', period: 'จ่ายครั้งเดียว', blurb: 'สำหรับร้านที่กำลังโต', cta: 'เลือกโปร', features: ['ทุกอย่างในเริ่มต้น', 'ผู้ใช้งานหลายคนพร้อมสิทธิ์', 'AI พยากรณ์ยอดขาย', 'คุมสต๊อกและสูตร', 'จอครัว (KDS)'] },
+    { name: 'ธุรกิจ', price: 'ติดต่อเรา', period: 'ราคาแบบกำหนดเอง', blurb: 'สำหรับเชนหลายสาขา', cta: 'คุยกับทีมขาย', features: ['ทุกอย่างในโปร', 'รวมทุกสาขาในที่เดียว', 'เชื่อมต่อ API', 'ทีมซัพพอร์ตเฉพาะ'] },
+  ],
+}
+
+const { strings = DEFAULT } = Astro.props
+---
+
+<section id="pricing" class="bg-surface-2 px-6 py-24 md:py-32">
+  <div class="mx-auto max-w-6xl">
+    <h2 class="mb-4 text-center font-display text-4xl font-light tracking-tightest text-text md:text-5xl">
+      {strings.heading}
+    </h2>
+    <p class="mb-16 text-center text-text-muted">{strings.sub}</p>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        strings.tiers.map((tier, index) => {
+          const featured = index === 1
+          return (
+            <div
+              class:list={[
+                'relative flex flex-col rounded-2xl bg-surface p-8',
+                featured
+                  ? 'border border-primary ring-1 ring-primary shadow-card-hover md:-translate-y-3'
+                  : 'border border-border shadow-card',
+              ]}
+            >
+              {featured && (
+                <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-fg">
+                  {strings.recommended}
+                </span>
+              )}
+              <h3 class="font-display text-2xl text-text">{tier.name}</h3>
+              <p class="mt-1 text-sm text-text-muted">{tier.blurb}</p>
+              <div class="mt-6">
+                {tier.price.startsWith('฿') ? (
+                  <p class="flex items-baseline gap-0.5">
+                    <span class="font-display text-3xl text-text">฿</span>
+                    <span class="font-display text-5xl leading-none text-text tabular-nums">
+                      {tier.price.slice(1)}
+                    </span>
+                  </p>
+                ) : (
+                  <p class="font-display text-4xl text-text">{tier.price}</p>
+                )}
+                {tier.period && <p class="mt-2 text-sm text-text-muted">{tier.period}</p>}
+              </div>
+              <ul class="mt-8 flex flex-1 flex-col gap-3">
+                {tier.features.map((feature) => (
+                  <li class="flex items-start gap-3 text-text">
+                    <svg
+                      class="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#download"
+                class:list={[
+                  'mt-8 rounded-full px-6 py-3 text-center text-sm font-medium transition-transform hover:-translate-y-0.5',
+                  featured
+                    ? 'bg-primary text-primary-fg'
+                    : 'border border-border text-text hover:bg-surface-2',
+                ]}
+              >
+                {tier.cta}
+              </a>
+            </div>
+          )
+        })
+      }
+    </div>
+  </div>
+</section>

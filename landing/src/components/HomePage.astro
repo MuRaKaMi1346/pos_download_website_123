@@ -1,0 +1,80 @@
+---
+// Shared home page composition for both locales (landing brief §6 / §7).
+// index.astro renders this with Thai strings; en/index.astro with English.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import type { Locale, Strings } from '../lib/i18n'
+import ActCapabilities from './ActCapabilities'
+import ActQuiet from './ActQuiet.astro'
+import FaqAccordion from './FaqAccordion'
+import FinalCta from './FinalCta.astro'
+import HeroHeadline from './HeroHeadline'
+import HeroVideo from './HeroVideo.astro'
+import HowItWorks from './HowItWorks'
+import PricingTable from './PricingTable.astro'
+import SiteFooter from './SiteFooter.astro'
+import SiteHeader from './SiteHeader.astro'
+import StatsBand from './StatsBand.astro'
+import BentoFeatures from './BentoFeatures.astro'
+import AiSpotlight from './AiSpotlight.astro'
+import BackOfficeShowcase from './BackOfficeShowcase'
+import CompareValue from './CompareValue.astro'
+import PlatformsStrip from './PlatformsStrip.astro'
+
+interface Props {
+  strings: Strings
+  lang: Locale
+}
+
+const { strings: t, lang } = Astro.props
+---
+
+<BaseLayout title={t.meta.title} description={t.meta.description} lang={lang}>
+  <SiteHeader lang={lang} />
+
+  <HeroVideo>
+    <HeroHeadline
+      client:load
+      eyebrow={t.hero.eyebrow}
+      headline={t.hero.headline}
+      subline={t.hero.subline}
+      primary={{ label: t.hero.primary, href: '#download' }}
+      secondary={{ label: t.hero.secondary, href: 'https://demo.smartbrew.app' }}
+    />
+    <div class="scroll-hint absolute bottom-8 left-1/2 -translate-x-1/2" aria-hidden="true">
+      <div class="scroll-hint__line mx-auto"></div>
+    </div>
+  </HeroVideo>
+
+  <StatsBand lang={lang} />
+
+  <ActCapabilities client:visible copy={t.capabilities} />
+
+  <BentoFeatures lang={lang} />
+
+  <AiSpotlight lang={lang} />
+
+  <BackOfficeShowcase client:visible lang={lang} />
+
+  <ActQuiet line1={t.quiet.line1} line2={t.quiet.line2} />
+
+  <HowItWorks client:visible heading={t.how.heading} steps={t.how.steps} />
+
+  <CompareValue lang={lang} />
+
+  <PricingTable strings={t.pricing} />
+
+  <section id="faq" class="bg-bg px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-12 text-center font-display text-4xl font-light tracking-tightest text-text md:text-5xl">
+        {t.faq.heading}
+      </h2>
+      <FaqAccordion client:visible items={t.faq.items} />
+    </div>
+  </section>
+
+  <PlatformsStrip lang={lang} />
+
+  <FinalCta cta={t.cta} download={t.download} newsletter={t.newsletter} />
+
+  <SiteFooter strings={t.footer} lang={lang} />
+</BaseLayout>

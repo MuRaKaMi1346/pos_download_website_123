@@ -1,0 +1,105 @@
+---
+// "Everything in one app" — a bento of real product shots + feature chips.
+import type { Locale } from '../lib/i18n'
+
+const { lang = 'th' } = Astro.props as { lang?: Locale }
+
+const COPY = {
+  th: {
+    heading: 'ทุกอย่างที่ร้านกาแฟต้องใช้ รวมในแอปเดียว',
+    sub: 'ตั้งแต่หน้าขายยันหลังบ้าน ออกแบบให้ทำงานร่วมกันอย่างลื่นไหล',
+    shots: { pos: 'หน้าขาย POS', dashboard: 'แดชบอร์ดเรียลไทม์', kds: 'จอครัว (KDS)' },
+    chips: [
+      { icon: 'card', title: 'รับเงินครบทุกช่องทาง', desc: 'เงินสด · โอน · บัตร · พร้อมเพย์ จบในบิลเดียว' },
+      { icon: 'wifi', title: 'ขายต่อได้แม้เน็ตหลุด', desc: 'Local-first ซิงก์อัตโนมัติเมื่อกลับมาออนไลน์' },
+      { icon: 'clock', title: 'เปิด–ปิดกะ นับเงินแม่น', desc: 'เทียบเงินสดจริงกับที่ควรมี เห็นส่วนต่างทันที' },
+      { icon: 'moon', title: 'โหมดสว่าง & มืด', desc: 'สบายตาทุกช่วงเวลาที่เปิดร้าน' },
+      { icon: 'users', title: 'แยกสิทธิ์ตามบทบาท', desc: 'พนักงานเห็นเฉพาะที่ควรเห็น แอดมินคุมทุกอย่าง' },
+    ],
+  },
+  en: {
+    heading: 'Everything a cafe needs, in one app',
+    sub: 'From the counter to the back office — designed to work together, seamlessly.',
+    shots: { pos: 'POS sale screen', dashboard: 'Real-time dashboard', kds: 'Kitchen display (KDS)' },
+    chips: [
+      { icon: 'card', title: 'Every payment type', desc: 'Cash · transfer · card · PromptPay on one bill' },
+      { icon: 'wifi', title: 'Sells through outages', desc: 'Local-first, syncs the moment you’re back online' },
+      { icon: 'clock', title: 'Shifts & cash counts', desc: 'Counted cash vs expected, with instant variance' },
+      { icon: 'moon', title: 'Light & dark mode', desc: 'Easy on the eyes, any time of day' },
+      { icon: 'users', title: 'Role-based access', desc: 'Staff see what they should; admins control it all' },
+    ],
+  },
+}
+const t = COPY[lang]
+
+const PATHS: Record<string, string> = {
+  card: 'M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM2 10h20',
+  wifi: 'M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 12.55a10 10 0 0 1 5.17-2.39M10.66 5c4.01-.36 8.14.9 11.34 3.76M16.85 11.25a10 10 0 0 1 2.22 1.68',
+  clock: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2',
+  moon: 'M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z',
+  users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+}
+
+const shots = [
+  { src: '/images/pos.webp', label: t.shots.pos, cls: 'md:col-span-2 md:row-span-2' },
+  { src: '/images/dashboard.webp', label: t.shots.dashboard, cls: 'md:col-start-3 md:row-start-1' },
+  { src: '/images/kds.webp', label: t.shots.kds, cls: 'md:col-start-3 md:row-start-2' },
+]
+---
+
+<section id="features" class="scroll-mt-24 bg-surface-2 px-6 py-24 md:py-32">
+  <div class="mx-auto max-w-6xl">
+    <h2 data-reveal class="max-w-3xl font-display text-4xl font-light leading-tight tracking-tightest text-text md:text-5xl">
+      {t.heading}
+    </h2>
+    <p data-reveal style="transition-delay:60ms" class="mt-4 max-w-xl text-lg text-text-muted">{t.sub}</p>
+
+    <div data-reveal class="mt-12 grid gap-4 md:h-[34rem] md:grid-cols-3 md:grid-rows-2">
+      {
+        shots.map((shot) => (
+          <figure class={`group relative overflow-hidden rounded-2xl border border-border bg-surface shadow-card ${shot.cls}`}>
+            <img
+              src={shot.src}
+              alt={shot.label}
+              loading="lazy"
+              decoding="async"
+              class="h-56 w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] md:h-full"
+            />
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent px-5 py-4 text-sm font-medium text-white">
+              {shot.label}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+      {
+        t.chips.map((chip, index) => (
+          <div
+            data-reveal
+            style={`transition-delay:${index * 60}ms`}
+            class="rounded-2xl border border-border bg-surface p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-card-hover"
+          >
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-surface-2">
+              <svg
+                class="h-6 w-6 text-primary"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={PATHS[chip.icon]} />
+              </svg>
+            </span>
+            <h3 class="mt-4 font-display text-lg text-text">{chip.title}</h3>
+            <p class="mt-1 text-sm text-text-muted">{chip.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

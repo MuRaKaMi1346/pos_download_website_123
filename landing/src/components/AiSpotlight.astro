@@ -1,0 +1,95 @@
+---
+// AI Insights spotlight — the differentiator. On-device forecasting.
+import type { Locale } from '../lib/i18n'
+
+const { lang = 'th' } = Astro.props as { lang?: Locale }
+
+const COPY = {
+  th: {
+    eyebrow: 'AI ที่รันในเครื่องคุณ',
+    heading: 'ให้ AI วางแผนสต๊อก ก่อนของจะหมด',
+    sub: 'SmartBrew เรียนรู้จากประวัติการขายของร้านคุณเอง แล้วบอกล่วงหน้าว่าควรเตรียมของแค่ไหน — ไม่ต้องเดา ไม่ต้องส่งข้อมูลออกนอกร้าน',
+    points: [
+      'พยากรณ์ยอดขายรายเมนู 14 วันล่วงหน้า',
+      'แนะนำปริมาณสั่งวัตถุดิบให้พอดี ลดของเสีย',
+      'สรุปกลยุทธ์เป็นภาษาไทยที่อ่านเข้าใจง่าย',
+      'ประมวลผลในเครื่องด้วย Ollama — ข้อมูลไม่ออกจากร้าน',
+    ],
+    cta: 'ดูราคาแพ็กเกจที่มี AI',
+    badge: 'พยากรณ์ยอดขาย 14 วันถัดไป',
+  },
+  en: {
+    eyebrow: 'AI that runs on your machine',
+    heading: 'Let AI plan your stock before you run out',
+    sub: 'SmartBrew learns from your own sales history and tells you what to prep ahead — no guessing, and nothing leaves your shop.',
+    points: [
+      '14-day sales forecast, per menu item',
+      'Right-sized ingredient ordering that cuts waste',
+      'Plain-language Thai strategy summaries',
+      'Runs on-device via Ollama — your data stays in-store',
+    ],
+    cta: 'See plans with AI',
+    badge: 'Sales forecast · next 14 days',
+  },
+}
+const t = COPY[lang]
+---
+
+<section id="ai" class="scroll-mt-24 overflow-hidden bg-bg px-6 py-24 md:py-32">
+  <div class="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-16">
+    <div data-reveal>
+      <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-primary">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+        </svg>
+        {t.eyebrow}
+      </p>
+      <h2 class="font-display text-4xl font-light leading-tight tracking-tightest text-text md:text-5xl">
+        {t.heading}
+      </h2>
+      <p class="mt-6 max-w-md text-pretty text-lg text-text-muted">{t.sub}</p>
+      <ul class="mt-8 space-y-4">
+        {
+          t.points.map((point) => (
+            <li class="flex items-start gap-3 text-text">
+              <svg class="mt-0.5 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+              <span>{point}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        href="#pricing"
+        class="mt-10 inline-flex rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-fg shadow-card transition-transform duration-200 hover:-translate-y-0.5"
+      >
+        {t.cta}
+      </a>
+    </div>
+
+    <div data-reveal style="transition-delay:120ms" class="relative">
+      <div
+        class="pointer-events-none absolute -inset-8 -z-10 blur-3xl"
+        style="background: radial-gradient(ellipse 60% 60% at 60% 40%, oklch(0.6 0.13 300 / 0.18), transparent 70%);"
+        aria-hidden="true"
+      >
+      </div>
+      <figure class="overflow-hidden rounded-2xl border border-border bg-surface shadow-card-hover">
+        <div class="flex items-center gap-1.5 border-b border-border px-4 py-3">
+          <span class="h-3 w-3 rounded-full bg-danger/70"></span>
+          <span class="h-3 w-3 rounded-full bg-warning/70"></span>
+          <span class="h-3 w-3 rounded-full bg-success/70"></span>
+          <span class="ml-3 text-xs text-text-muted">{t.badge}</span>
+        </div>
+        <img
+          src="/images/ai-insights.webp"
+          alt={t.badge}
+          loading="lazy"
+          decoding="async"
+          class="w-full"
+        />
+      </figure>
+    </div>
+  </div>
+</section>

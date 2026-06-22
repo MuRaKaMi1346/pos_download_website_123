@@ -1,0 +1,87 @@
+---
+import '@fontsource-variable/fraunces'
+import '@fontsource-variable/inter'
+import '@fontsource/ibm-plex-sans-thai'
+import '../styles/global.css'
+import Cursor from '../components/Cursor'
+import FilmGrade from '../components/FilmGrade.astro'
+import SmoothScroll from '../components/SmoothScroll'
+import SoundToggle from '../components/SoundToggle'
+
+interface Props {
+  title?: string
+  description?: string
+  lang?: 'th' | 'en'
+  image?: string
+}
+
+const {
+  title = 'SmartBrew POS',
+  description = 'SmartBrew POS — ระบบขายหน้าร้านที่ออกแบบมาเพื่อคาเฟ่',
+  lang = 'th',
+  image,
+} = Astro.props
+
+const site = Astro.site ?? new URL('https://smartbrew.app')
+const canonical = new URL(Astro.url.pathname, site)
+const basePath = Astro.url.pathname.replace(/^\/en/, '') || '/'
+const thHref = new URL(basePath, site)
+const enHref = new URL(basePath === '/' ? '/en/' : `/en${basePath}`, site)
+const ogImage = new URL(image ?? `/og/og-${lang}.png`, site)
+const ogLocale = lang === 'th' ? 'th_TH' : 'en_US'
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="alternate" hreflang="th" href={thHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={thHref} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SmartBrew POS" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+  </head>
+  <body class="min-h-dvh bg-bg font-sans text-text antialiased">
+    <!-- Loading curtain (brief §1.5.5): present in SSR HTML so it covers the
+         first paint, then the CSS wipe runs and curtain.ts removes it. -->
+    <div id="loading-curtain" class="curtain" aria-hidden="true">
+      <span class="curtain__mark font-display text-5xl tracking-tightest md:text-7xl">SmartBrew</span>
+    </div>
+
+    <FilmGrade />
+    <Cursor client:idle />
+    <SoundToggle client:idle />
+    <SmoothScroll client:idle />
+
+    <slot />
+
+    <script>
+      import { initCurtain } from '../scripts/curtain'
+      import { initReveal } from '../scripts/reveal'
+
+      initCurtain()
+      initReveal()
+    </script>
+  </body>
+</html>

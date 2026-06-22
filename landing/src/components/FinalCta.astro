@@ -1,0 +1,38 @@
+---
+// Act V — Final CTA (landing brief §6). Restated download + newsletter capture
+// on a warm espresso close.
+import type { Strings } from '../lib/i18n'
+import DownloadButton from './DownloadButton'
+import NewsletterForm from './NewsletterForm'
+
+interface Props {
+  cta?: Strings['cta']
+  download?: Strings['download']
+  newsletter?: Strings['newsletter']
+}
+
+const DEFAULT_CTA: Strings['cta'] = {
+  heading: 'พร้อมเปลี่ยนวิธีขายของร้านคุณหรือยัง',
+  sub: 'ดาวน์โหลด SmartBrew POS ได้วันนี้ หรือรับข่าวสารฟีเจอร์ใหม่ก่อนใคร',
+  orNewsletter: 'หรือรับข่าวสารอัปเดต',
+}
+
+const { cta = DEFAULT_CTA, download, newsletter } = Astro.props
+---
+
+<section id="download" class="relative overflow-hidden bg-espresso px-6 py-28 text-center md:py-36">
+  <div class="quiet-bloom" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-2xl">
+    <h2 class="font-display text-4xl font-light tracking-tightest text-cream md:text-6xl">
+      {cta.heading}
+    </h2>
+    <p class="mx-auto mt-6 max-w-xl text-lg text-cream">{cta.sub}</p>
+    <div class="mt-10">
+      <DownloadButton client:visible copy={download} />
+    </div>
+    <div class="mt-14">
+      <p class="mb-4 text-sm uppercase tracking-[0.2em] text-cream">{cta.orNewsletter}</p>
+      <NewsletterForm client:visible copy={newsletter} />
+    </div>
+  </div>
+</section>

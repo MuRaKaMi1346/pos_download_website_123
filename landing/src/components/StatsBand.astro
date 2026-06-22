@@ -1,0 +1,37 @@
+---
+// Quick credibility band right under the hero. Honest, product-derived claims.
+import type { Locale } from '../lib/i18n'
+
+const { lang = 'th' } = Astro.props as { lang?: Locale }
+
+const COPY = {
+  th: [
+    { value: '3 วิ', label: 'ปิดบิลไวต่อรายการ' },
+    { value: '14 วัน', label: 'AI พยากรณ์ยอดขายล่วงหน้า' },
+    { value: '100%', label: 'ขายต่อได้แม้เน็ตหลุด' },
+    { value: '11+', label: 'โมดูลจัดการหลังร้าน' },
+  ],
+  en: [
+    { value: '3s', label: 'Fast bill checkout' },
+    { value: '14 days', label: 'AI sales forecast ahead' },
+    { value: '100%', label: 'Keeps selling offline' },
+    { value: '11+', label: 'Back-office modules' },
+  ],
+}
+const stats = COPY[lang]
+---
+
+<section class="border-y border-border bg-surface-2 px-6 py-12 md:py-16">
+  <div class="mx-auto grid max-w-6xl grid-cols-2 gap-8 md:grid-cols-4">
+    {
+      stats.map((stat, index) => (
+        <div data-reveal style={`transition-delay:${index * 70}ms`} class="text-center">
+          <p class="font-display text-4xl tracking-tightest text-primary tabular-nums md:text-5xl">
+            {stat.value}
+          </p>
+          <p class="mt-2 text-sm text-text-muted">{stat.label}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
