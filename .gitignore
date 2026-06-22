@@ -27,11 +27,6 @@ playwright-report/
 .env.*
 !.env.example
 
-# Build / temp video artifacts
-landing/public/video/hero.webm
-landing/public/video/hero.mp4
-landing/public/video/hero-mobile.mp4
-
 # OS / editor
 .DS_Store
 Thumbs.db
