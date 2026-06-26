@@ -95,7 +95,7 @@ export default function HeroHeadline({ eyebrow, headline, subline, primary, seco
           </a>
           <a
             href={secondary.href}
-            className="inline-flex items-center justify-center rounded-full border border-text/25 px-7 py-3.5 text-sm font-medium text-text transition-colors duration-200 hover:bg-text/5"
+            className="inline-flex items-center justify-center rounded-full border border-border bg-surface/80 px-7 py-3.5 text-sm font-medium text-text shadow-card backdrop-blur transition-colors duration-200 hover:bg-surface"
           >
             {secondary.label}
           </a>
