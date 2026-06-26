@@ -56,7 +56,7 @@ export default function SoundToggle() {
         onClick={toggle}
         aria-pressed={on}
         aria-label={on ? 'ปิดเสียงบรรยากาศ' : 'เปิดเสียงบรรยากาศ'}
-        className="fixed right-4 top-4 z-[9000] flex h-11 w-11 items-center justify-center rounded-full border border-cream/25 bg-espresso/75 text-cream backdrop-blur transition-colors hover:bg-espresso/90"
+        className="fixed right-4 top-4 z-[9000] hidden h-11 w-11 items-center justify-center rounded-full border border-cream/25 bg-espresso/75 text-cream backdrop-blur transition-colors hover:bg-espresso/90 md:flex"
       >
         {on ? <Volume2 className="h-5 w-5" aria-hidden="true" /> : <VolumeX className="h-5 w-5" aria-hidden="true" />}
       </button>

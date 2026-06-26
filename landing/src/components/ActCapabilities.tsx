@@ -90,7 +90,7 @@ function Slide({
  */
 export default function ActCapabilities({ copy = DEFAULT_COPY }: { copy?: Copy[] }) {
   const reducedPref = useReducedMotion()
-  const [reduced, setReduced] = useState(false)
+  const [stacked, setStacked] = useState(false)
   const [active, setActive] = useState(0)
   const progress = useMotionValue(0)
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -101,11 +101,19 @@ export default function ActCapabilities({ copy = DEFAULT_COPY }: { copy?: Copy[]
     desc: copy[index]?.desc ?? DEFAULT_COPY[index].desc,
   }))
 
+  // The scroll-pinned cross-dissolve is a desktop affordance: on phones it
+  // overflows the viewport and the long scroll-jack feels broken. Fall back to a
+  // plain vertical stack on small screens (and for reduced motion).
   useEffect(() => {
-    if (reducedPref) {
-      setReduced(true)
-      return
-    }
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = () => setStacked(Boolean(reducedPref) || mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [reducedPref])
+
+  useEffect(() => {
+    if (stacked) return
     const section = sectionRef.current
     if (!section) return
 
@@ -123,15 +131,15 @@ export default function ActCapabilities({ copy = DEFAULT_COPY }: { copy?: Copy[]
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
     }
-  }, [reducedPref, progress, caps.length])
+  }, [stacked, progress, caps.length])
 
-  if (reduced) {
+  if (stacked) {
     return (
       <section className="bg-bg">
         {caps.map((cap, index) => (
           <div
             key={cap.title}
-            className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-6 py-16 md:flex-row md:gap-16"
+            className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-6 py-12 md:flex-row md:gap-16 md:py-16"
           >
             <div className="flex-1">
               <p className="mb-4 font-sans text-sm tabular-nums tracking-[0.3em] text-primary">
