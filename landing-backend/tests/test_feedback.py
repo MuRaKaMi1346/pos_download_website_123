@@ -116,3 +116,12 @@ def test_admin_lists_feedback_and_serves_image(client: TestClient) -> None:
     assert image.status_code == 200
     assert image.headers["content-type"] == "image/png"
     assert image.content == PNG_BYTES
+
+
+def test_feedback_dashboard_page_renders(client: TestClient) -> None:
+    # The HTML page is public (no token); the data it loads is token-gated.
+    response = client.get("/api/v1/admin/feedback/view")
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+    assert "SmartBrew" in response.text
+    assert "X-Admin-Token" in response.text

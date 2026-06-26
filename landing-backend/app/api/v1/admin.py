@@ -5,9 +5,11 @@ from __future__ import annotations
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Response, status
+from fastapi.responses import HTMLResponse
 from sqlmodel import Session
 
 from app.api.deps import get_release_service
+from app.api.v1._dashboard import FEEDBACK_DASHBOARD_HTML
 from app.core.config import Settings, get_settings
 from app.db.session import get_session
 from app.repositories import feedback_repository
@@ -31,6 +33,13 @@ def reload_releases(
     """Re-read release manifests from disk without restarting the service."""
     _require_admin(x_admin_token, settings)
     return {"reloaded": service.reload()}
+
+
+@router.get("/feedback/view", response_class=HTMLResponse, include_in_schema=False)
+def feedback_dashboard() -> HTMLResponse:
+    """In-browser dashboard to read feedback. The admin token is entered in the
+    page (kept in sessionStorage), so this HTML itself needs no auth."""
+    return HTMLResponse(FEEDBACK_DASHBOARD_HTML)
 
 
 @router.get("/feedback", response_model=list[FeedbackAdminItem])
