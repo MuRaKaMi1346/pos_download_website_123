@@ -1,13 +1,14 @@
 ---
 // Act I hero (landing brief §5.2) — bright studio clip. Plays once and freezes
 // on the last frame; the headline reveals only after the video ends (it
-// dispatches `hero:reveal`). Reduced motion / mobile / blocked autoplay reveal
-// immediately and rest on the final still. Light scene -> dark text + light scrim.
+// dispatches `hero:reveal`). Phones get a lighter `hero-mobile.mp4` and play it
+// inline; reduced motion or blocked autoplay reveal immediately and rest on the
+// final still. Light scene -> dark text + light scrim.
 ---
 
 <section class="relative h-[100svh] w-full overflow-hidden">
   <video
-    class="absolute inset-0 hidden h-full w-full object-cover md:block"
+    class="absolute inset-0 h-full w-full object-cover"
     muted
     playsinline
     preload="auto"
@@ -17,13 +18,9 @@
   >
     <source src="/video/hero.webm" type="video/webm" media="(min-width: 768px)" />
     <source src="/video/hero.mp4" type="video/mp4" media="(min-width: 768px)" />
+    <source src="/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+    <source src="/video/hero-mobile.mp4" type="video/mp4" />
   </video>
-  <img
-    class="absolute inset-0 h-full w-full object-cover md:hidden"
-    src="/video/hero-end.webp"
-    alt=""
-    aria-hidden="true"
-  />
 
   <!-- Light readability scrim on the text side: keeps the dark headline crisp on
        the white studio background without darkening the clean look. -->
@@ -51,15 +48,21 @@
   }
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const desktop = window.matchMedia('(min-width: 768px)').matches
 
-  if (!video || reduce || !desktop) {
+  if (!video || reduce) {
     if (video) video.poster = '/video/hero-end.webp' // rest on the final frame
     reveal()
   } else {
     video.addEventListener('ended', reveal, { once: true })
     fallback = window.setTimeout(reveal, 12000) // safety if 'ended' never fires
+    // Muted + playsinline autoplays inline on iOS/Android; if it's still blocked
+    // (data saver, low-power mode) fall back to the still and reveal the copy.
     const played = video.play()
-    if (played && typeof played.catch === 'function') played.catch(reveal)
+    if (played && typeof played.catch === 'function') {
+      played.catch(() => {
+        video.poster = '/video/hero-end.webp'
+        reveal()
+      })
+    }
   }
 </script>
