@@ -127,9 +127,10 @@ html.lenis body {
 /* Custom cursor — §1.5.6. Desktop only; toggled by the Cursor island. */
 .cursor-ring {
   box-sizing: border-box;
-  border: 1.5px solid #fff;
+  border: 2px solid var(--color-primary); /* espresso accent — reads on the light UI */
   border-radius: 9999px;
-  mix-blend-mode: difference; /* inverts against whatever is beneath */
+  /* faint light halo so the ring stays visible on the dark espresso sections too */
+  box-shadow: 0 0 0 1.5px oklch(1 0 0 / 0.5);
 }
 html.has-custom-cursor,
 html.has-custom-cursor * {

@@ -58,9 +58,11 @@ export default function Cursor() {
         className="cursor-ring block"
         style={{ translateX: '-50%', translateY: '-50%' }}
         animate={{
-          width: hovering ? 56 : 14,
-          height: hovering ? 56 : 14,
-          backgroundColor: hovering ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0)',
+          width: hovering ? 56 : 16,
+          height: hovering ? 56 : 16,
+          // Espresso (var(--color-primary) ≈ rgb(55,36,25)); a soft tint on hover,
+          // hollow at rest so the ring reads cleanly.
+          backgroundColor: hovering ? 'rgba(55,36,25,0.16)' : 'rgba(55,36,25,0)',
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 24 }}
       />
