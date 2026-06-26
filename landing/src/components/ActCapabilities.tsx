@@ -101,15 +101,10 @@ export default function ActCapabilities({ copy = DEFAULT_COPY }: { copy?: Copy[]
     desc: copy[index]?.desc ?? DEFAULT_COPY[index].desc,
   }))
 
-  // The scroll-pinned cross-dissolve is a desktop affordance: on phones it
-  // overflows the viewport and the long scroll-jack feels broken. Fall back to a
-  // plain vertical stack on small screens (and for reduced motion).
+  // Phones get the same scroll-pinned cross-dissolve as desktop. Only reduced
+  // motion falls back to a plain vertical stack (accessibility).
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)')
-    const update = () => setStacked(Boolean(reducedPref) || mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
+    setStacked(Boolean(reducedPref))
   }, [reducedPref])
 
   useEffect(() => {
