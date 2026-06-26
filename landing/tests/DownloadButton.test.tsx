@@ -34,11 +34,14 @@ describe('DownloadButton', () => {
     expect(hasInstaller).toBe(true)
   })
 
-  it('falls back to the demo when the manifest fails', async () => {
+  it('falls back to the Windows demo build when the manifest is unavailable', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue({ ok: false, status: 500 } as Response)
     render(<DownloadButton />)
-    await waitFor(() =>
-      expect(screen.getByText(/ยังโหลดข้อมูลรุ่นล่าสุดไม่ได้/)).toBeInTheDocument(),
-    )
+    await waitFor(() => {
+      const link = screen
+        .getAllByRole('link')
+        .find((a) => /SmartBrewPOS\.exe$/.test(a.getAttribute('href') ?? ''))
+      expect(link).toBeTruthy()
+    })
   })
 })

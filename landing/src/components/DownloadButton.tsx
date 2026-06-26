@@ -14,6 +14,25 @@ interface Release {
 const API_BASE =
   (import.meta.env.PUBLIC_API_BASE as string | undefined) ?? 'http://localhost:8000/api/v1'
 
+// Windows demo build, hosted as a GitHub Release asset. The `/releases/latest/`
+// path always resolves to the newest release's asset, so updating the demo only
+// means publishing a new release with a SmartBrewPOS.exe asset — no code change.
+const WINDOWS_DEMO_URL =
+  'https://github.com/MuRaKaMi1346/pos_download_website_123/releases/latest/download/SmartBrewPOS.exe'
+
+// Used when the release API isn't reachable (e.g. the static site without the
+// backend): still offer the Windows demo instead of only the online demo link.
+const FALLBACK_RELEASE: Release = {
+  version: 'Demo',
+  released_at: '',
+  channels: { windows: { url: WINDOWS_DEMO_URL, size_bytes: 48_609_488, sha256: '' } },
+  notes_url: '',
+}
+
+function hasChannels(release: Release | null): release is Release {
+  return !!release && Object.keys(release.channels).length > 0
+}
+
 const OS_LABELS: Record<Exclude<OS, 'unknown'>, string> = {
   windows: 'Windows',
   macos: 'macOS',
@@ -59,11 +78,14 @@ export default function DownloadButton({ copy = DEFAULT_COPY }: { copy?: Strings
         return res.json() as Promise<Release>
       })
       .then((data) => {
-        setRelease(data)
+        setRelease(hasChannels(data) ? data : FALLBACK_RELEASE)
         setStatus('ready')
       })
       .catch((err: unknown) => {
-        if (!(err instanceof DOMException && err.name === 'AbortError')) setStatus('error')
+        if (err instanceof DOMException && err.name === 'AbortError') return
+        // API down: still offer the Windows demo build.
+        setRelease(FALLBACK_RELEASE)
+        setStatus('ready')
       })
     return () => controller.abort()
   }, [])
