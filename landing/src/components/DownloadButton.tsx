@@ -16,9 +16,9 @@ const API_BASE =
 
 // Windows demo build, hosted as a GitHub Release asset. The `/releases/latest/`
 // path always resolves to the newest release's asset, so updating the demo only
-// means publishing a new release with a SmartBrewPOS.exe asset — no code change.
+// means publishing a new release with a SmartBrewPOS-Setup.exe asset — no code change.
 const WINDOWS_DEMO_URL =
-  'https://github.com/MuRaKaMi1346/pos_download_website_123/releases/latest/download/SmartBrewPOS.exe'
+  'https://github.com/MuRaKaMi1346/pos_download_website_123/releases/latest/download/SmartBrewPOS-Setup.exe'
 
 // Used when the release API isn't reachable (e.g. the static site without the
 // backend): still offer the Windows demo instead of only the online demo link.

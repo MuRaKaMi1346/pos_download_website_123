@@ -40,7 +40,7 @@ describe('DownloadButton', () => {
     await waitFor(() => {
       const link = screen
         .getAllByRole('link')
-        .find((a) => /SmartBrewPOS\.exe$/.test(a.getAttribute('href') ?? ''))
+        .find((a) => /SmartBrewPOS-Setup\.exe$/.test(a.getAttribute('href') ?? ''))
       expect(link).toBeTruthy()
     })
   })
