@@ -34,5 +34,6 @@ cd landing-backend && uv sync && uv run uvicorn app.main:app --reload --port 800
 
 ```bash
 cd landing-backend && uv run ruff check && uv run ruff format --check && uv run mypy app && uv run pytest -q
+
 cd landing && pnpm lint && pnpm astro check && pnpm test && pnpm build
 ```
