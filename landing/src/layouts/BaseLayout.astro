@@ -4,9 +4,11 @@ import '@fontsource-variable/inter'
 import '@fontsource/ibm-plex-sans-thai'
 import '../styles/global.css'
 import Cursor from '../components/Cursor'
+import FeedbackWidget from '../components/FeedbackWidget'
 import FilmGrade from '../components/FilmGrade.astro'
 import SmoothScroll from '../components/SmoothScroll'
 import SoundToggle from '../components/SoundToggle'
+import { getStrings } from '../lib/i18n'
 
 interface Props {
   title?: string
@@ -73,6 +75,7 @@ const ogLocale = lang === 'th' ? 'th_TH' : 'en_US'
     <Cursor client:idle />
     <SoundToggle client:idle />
     <SmoothScroll client:idle />
+    <FeedbackWidget copy={getStrings(lang).feedback} client:load />
 
     <slot />
 

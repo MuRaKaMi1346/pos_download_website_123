@@ -37,6 +37,30 @@ export interface Strings {
     error: string
   }
   download: { for: string; version: string; or: string; demo: string; errorNote: string }
+  feedback: {
+    button: string
+    title: string
+    subtitle: string
+    ratingLabel: string
+    star: string
+    messageLabel: string
+    messagePlaceholder: string
+    emailLabel: string
+    emailPlaceholder: string
+    imageLabel: string
+    imageAdd: string
+    imageRemove: string
+    imageHint: string
+    submit: string
+    sending: string
+    success: string
+    successNote: string
+    errorRequired: string
+    errorImageType: string
+    errorImageSize: string
+    error: string
+    close: string
+  }
   footer: {
     tagline: string
     product: string
