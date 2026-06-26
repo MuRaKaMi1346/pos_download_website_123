@@ -25,7 +25,7 @@ const WINDOWS_DEMO_URL =
 const FALLBACK_RELEASE: Release = {
   version: 'Demo',
   released_at: '',
-  channels: { windows: { url: WINDOWS_DEMO_URL, size_bytes: 48_609_488, sha256: '' } },
+  channels: { windows: { url: WINDOWS_DEMO_URL, size_bytes: 109_880_865, sha256: '' } },
   notes_url: '',
 }
 
